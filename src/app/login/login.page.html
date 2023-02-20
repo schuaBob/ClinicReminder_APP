@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
+      <ion-list>  
+        <ion-item fill="outline">
+          <ion-label position="floating">Username:</ion-label>
+          <ion-input placeholder="Enter username" formControlName="username"></ion-input>
+        </ion-item>
+      
+        <ion-item fill="outline">
+          <ion-label position="floating">Password:</ion-label>
+          <ion-input placeholder="password" type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <ion-button shape="round" color="danger" type="submit">Login</ion-button>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>
