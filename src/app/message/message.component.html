@@ -1,4 +1,4 @@
-<ion-item *ngIf="reminder" [detail]="false" (click)="presentActionSheet()">
+<ion-item *ngIf="reminder" [detail]="false" (click)="presentActionSheet(reminder.id)" [disabled]="reminder.done">
   <ion-label class="ion-text-wrap">
     <h2>
       Priority: {{ reminder.priority }}

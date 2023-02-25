@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Reminder } from '../models/reminder';
 import { ActionSheetController } from '@ionic/angular';
+import { DataService } from '../services/data.service';
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
@@ -10,30 +11,26 @@ export class MessageComponent {
 
   @Input() reminder?: Reminder;
 
-  constructor(private actionSheetCtrl: ActionSheetController) {
+  constructor(private actionSheetCtrl: ActionSheetController, private dataService: DataService) {
 
   }
   isIos() {
     const win = window as any;
     return win && win.Ionic && win.Ionic.mode === 'ios';
   }
-  async presentActionSheet() {
+  async presentActionSheet(id: number) {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Have you finish this reminder?',
       subHeader: 'Mark done if finished',
       buttons: [
         {
           text: 'Done',
-          data: {
-            action: 'done',
-          },
+          data: 1,
         },
         {
           text: 'Cancel',
           role: 'cancel',
-          data: {
-            action: 'cancel',
-          },
+          data: 0,
         },
       ],
     });
@@ -41,6 +38,8 @@ export class MessageComponent {
     await actionSheet.present();
 
     const result = await actionSheet.onDidDismiss();
-    console.log(result)
+    if (result.data) {
+      this.dataService.updateReminderById(id);
+    }
   }
 }
