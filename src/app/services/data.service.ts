@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Reminder } from '../models/reminder';
 
 export interface Message {
   fromName: string;
@@ -12,7 +15,8 @@ export interface Message {
   providedIn: 'root'
 })
 export class DataService {
-  public messages: Message[] = [
+  private api = "api";
+  public reminders: Message[] = [
     {
       fromName: 'Bob Chorsey',
       subject: 'New event: Trip to Vegas',
@@ -71,13 +75,13 @@ export class DataService {
     }
   ];
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  public getMessages(): Message[] {
-    return this.messages;
+  public getReminders(): Observable<Reminder[]>{
+    return this.http.get<Reminder[]>(`${this.api}/patient/reminders`);
   }
 
-  public getMessageById(id: number): Message {
-    return this.messages[id];
+  public getReminderById(id: number): Message {
+    return this.reminders[id];
   }
 }

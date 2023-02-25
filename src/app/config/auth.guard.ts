@@ -7,23 +7,24 @@ import { StorageService } from '../services/storage.service';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router, storageService: StorageService) { }
+  constructor(private router: Router, private storageService: StorageService) { }
 
-  canActivate(
+  async canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): boolean {
-    const logined = "";
-
+  ): Promise<boolean> {
+    // const logined = await this.storageService.get("user");
+    const logined = true;
+    console.log("guarding")
+    console.log(logined)
     if (logined) {
       console.log("pass")
       return true;
     } else {
       console.log("nopass")
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
       return false;
     }
-
   }
 
 }
