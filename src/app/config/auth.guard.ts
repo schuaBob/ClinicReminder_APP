@@ -13,9 +13,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean> {
-    // const logined = await this.storageService.get("user");
-    const logined = true;
-    console.log("guarding")
+    const logined = await this.storageService.get("user");
     console.log(logined)
     if (logined) {
       console.log("pass")

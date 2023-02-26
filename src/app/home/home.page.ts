@@ -17,18 +17,23 @@ export class HomePage implements OnInit {
     private data: DataService
   ) { }
 
-  ngOnInit(): void {
-    this.data.getReminders().subscribe({
-      next: (reminders) => {
+  async ngOnInit(): Promise<void> {
+    (await this.data.getReminders()).subscribe({
+      next: (reminders: Reminder[]) => {
         this.reminders = reminders;
-        console.log(reminders)
       }
     })
   }
   refresh(ev: any) {
-    setTimeout(() => {
-      (ev as RefresherCustomEvent).detail.complete();
-    }, 3000);
+    console.log("refreshing")
+    this.data.getReminders().then((obs) => {
+      obs.subscribe({
+        next: (reminders: Reminder[]) => {
+          this.reminders = reminders;
+          (ev as RefresherCustomEvent).detail.complete();
+        }
+      })
+    })
   }
 
   getReminders(): Reminder[] {

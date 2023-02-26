@@ -39,7 +39,7 @@ export class MessageComponent {
 
     const result = await actionSheet.onDidDismiss();
     if (result.data) {
-      this.dataService.updateReminderById(id);
+      await this.dataService.updateReminderById(id);
     }
   }
 }

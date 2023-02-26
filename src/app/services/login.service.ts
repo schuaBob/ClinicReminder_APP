@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { User } from '../models/users';
 import { StorageService } from './storage.service';
 @Injectable({
   providedIn: 'root'
@@ -16,12 +17,13 @@ export class LoginService {
   ) { }
 
   signin(username: string, password: string) {
-    this.http.post(this.url, {
+    this.http.post<User>(this.url, {
       username,
       password
     }).pipe(first()).subscribe({
       next: async (value) => {
         await this.storageService.set("user", JSON.stringify(value))
+        await this.storageService.set("token", value.jwt)
       },
       error: (error) => {
         console.error(error)
