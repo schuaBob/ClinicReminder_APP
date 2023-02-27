@@ -4,6 +4,8 @@ import { Reminder } from '../models/reminder';
 
 
 import { DataService } from '../services/data.service';
+import { NotificationService } from '../services/notification.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +16,9 @@ export class HomePage implements OnInit {
   private reminders: Reminder[] = [];
 
   constructor(
-    private data: DataService
+    private data: DataService,
+    private socketService: SocketService,
+    private notiService: NotificationService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -23,6 +27,7 @@ export class HomePage implements OnInit {
         this.reminders = reminders;
       }
     })
+    this.socketService.init()
   }
   refresh(ev: any) {
     console.log("refreshing")
